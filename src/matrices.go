@@ -46,7 +46,9 @@ func NewMatrix(r, c uint) Matrix {
 	return Matrix{Rows: r, Cols: c, Data: data}
 }
 
-func NewIMatrix(r, c uint) Matrix {
+// ************* Martix utils
+
+func IDGate(r, c uint) Matrix {
 	m := NewMatrix(r, c)
 	var i, j uint
 	for i = 0; i < m.Rows; i++ {
@@ -59,7 +61,14 @@ func NewIMatrix(r, c uint) Matrix {
 	return m
 }
 
-// ************* Martix utils
+func NotGate(r, c uint) Matrix {
+	m := NewMatrix(r, c)
+	m.Set(0, 0, 0)
+	m.Set(0, 1, 1)
+	m.Set(1, 0, 1)
+	m.Set(1, 1, 0)
+	return m
+}
 
 func (m *Matrix) Set(r, c uint, val complex128) {
 	m.Data[r][c] = val
@@ -91,7 +100,8 @@ func (m *Matrix) Dot(v VecQbits) VecQbits {
 		for j = 0; j < m.Cols; j++ {
 			tmp += m.At(i, j) * v.At(j)
 		}
-		v.Set(i, tmp)
+		// Original QBit is not modified here.
+		y.Set(i, tmp)
 	}
 	return y
 }
@@ -102,7 +112,7 @@ func (m *Matrix) Print() {
 		for j = 0; j < m.Cols; j++ {
 			fmt.Printf("%.1f ", m.At(i, j))
 		}
-		fmt.Println("\n")
+		fmt.Println("")
 	}
 }
 
