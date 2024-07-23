@@ -34,13 +34,11 @@ func main() {
 	// Create a circuit with n inputs, each input is |0>
 	ckt := MakeCircuit(1, "Circuit1")
 	fmt.Printf("Circuit %+v\n\n", ckt)
+
 	fmt.Printf("Create Identity Matrix\n")
 	iMatrix := IDGate(2, 2)
 	iMatrix.Print()
-
 	fmt.Printf("Multiply Qbit Vector with Identity Matrix\n")
-	//iMatrix.Print()
-	//ckt.vec.Print()
 	v2 := iMatrix.Dot(ckt.vec)
 	v2.Print()
 
