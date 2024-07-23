@@ -20,14 +20,18 @@ type VecQbits struct {
 }
 
 // Creates n Vectors each with a value of |0> and returns them in an array
-func NewVector(n uint) VecQbits {
+// Data[0] = 1 and Data[1] = 0 - making this a ket0 - |0>
+// Each call to NewVector returns a single 2-dimension Qbit value of ket-0
+func NewVector(dimension uint) VecQbits {
 	var data []complex128
-	var i uint
+	//var i uint
 
-	for i = 0; i < n; i++ {
-		data = append(data, complex128(0))
-	}
-	return VecQbits{N: n, Data: data}
+	// for i = 0; i < n; i++ {
+	// 	data = append(data, complex128(0))
+	// }
+	data = append(data, complex128(1))
+	data = append(data, complex128(0))
+	return VecQbits{N: dimension, Data: data}
 }
 
 func NewMatrix(r, c uint) Matrix {
@@ -55,15 +59,7 @@ func NewIMatrix(r, c uint) Matrix {
 	return m
 }
 
-func (m *Matrix) Print() {
-	var i, j uint
-	for i = 0; i < m.Rows; i++ {
-		for j = 0; j < m.Cols; j++ {
-			fmt.Printf("%.1f ", m.At(i, j))
-		}
-		fmt.Println("")
-	}
-}
+// ************* Martix utils
 
 func (m *Matrix) Set(r, c uint, val complex128) {
 	m.Data[r][c] = val
@@ -80,4 +76,60 @@ func (m *Matrix) SetAll(val complex128) {
 
 func (m *Matrix) At(r, c uint) complex128 {
 	return m.Data[r][c]
+}
+
+// Matrix multiplication is only valid if the number of columns
+// of the first matrix are equal to the number of rows of the
+// second matrix; further, the resulting matrix will have the
+// number of rows of the first matrix and the number of columns
+// of the second matrix.
+func (m *Matrix) Dot(v VecQbits) VecQbits {
+	y := NewVector(m.Rows)
+	var i, j uint
+	for i = 0; i < m.Rows; i++ {
+		var tmp complex128 = 0
+		for j = 0; j < m.Cols; j++ {
+			tmp += m.At(i, j) * v.At(j)
+		}
+		v.Set(i, tmp)
+	}
+	return y
+}
+
+func (m *Matrix) Print() {
+	var i, j uint
+	for i = 0; i < m.Rows; i++ {
+		for j = 0; j < m.Cols; j++ {
+			fmt.Printf("%.1f ", m.At(i, j))
+		}
+		fmt.Println("\n")
+	}
+}
+
+// ************* Vector Utils
+func (v *VecQbits) Set(n uint, val complex128) {
+	v.Data[n] = val
+}
+func (v *VecQbits) SetAll(val complex128) {
+	var i uint
+	for i = 0; i < v.N; i++ {
+		v.Set(i, val)
+	}
+}
+func (v *VecQbits) At(n uint) complex128 {
+	return v.Data[n]
+}
+
+func (v *VecQbits) Print() {
+	var i uint
+	for i = 0; i < v.N; i++ {
+		//fmt.Printf("%d: ", i)
+		if i != 0 && i%16 == 0 {
+			fmt.Println("")
+			fmt.Printf("%d: ", i)
+		}
+		e := v.Data[i]
+		fmt.Printf("%.1f\n", e)
+	}
+	fmt.Println("")
 }

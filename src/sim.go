@@ -20,11 +20,11 @@ func MakeCircuit(num uint, name string) Qsim {
 	reg := make([]*Reg, 0) // TBD - remove
 	// Create a |0> vector for each of the input Qubits
 	// and save in Circuit->vec
-	fmt.Printf("Create 2 Qbits and assign |0>\n")
-	vec := NewVector(num)
-	fmt.Printf("%+v\n\n", vec)
+	fmt.Printf("Create a Qbit with ket0 - |0>\n")
+	vec := NewVector(2) // 2 here means 2 dimension vector
+	vec.Print()
 
-	fmt.Printf("MakeCircuit with these %d Qbits as inputs\n", num)
+	fmt.Printf("MakeCircuit with %d Qbits\n", num)
 	return Qsim{numQbits: num, vec: vec, regQsim: reg, Name: name}
 
 }
@@ -32,10 +32,17 @@ func MakeCircuit(num uint, name string) Qsim {
 func main() {
 	fmt.Println("Qsim starting...........................")
 	// Create a circuit with n inputs, each input is |0>
-	ckt := MakeCircuit(2, "Circuit1")
+	ckt := MakeCircuit(1, "Circuit1")
 	fmt.Printf("Circuit %+v\n\n", ckt)
 	fmt.Printf("Create Identity Matrix\n")
 	iMatrix := NewIMatrix(2, 2)
 	iMatrix.Print()
+
+	fmt.Printf("Multiply a Vector with Identity Matrix\n")
+	iMatrix.Print()
+	ckt.vec.Print()
+	v2 := iMatrix.Dot(ckt.vec)
+	fmt.Printf("Result:\n")
+	v2.Print()
 
 }
