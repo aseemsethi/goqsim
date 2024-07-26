@@ -10,14 +10,12 @@ import (
 type Qsim struct {
 	numQbits uint     // number of Qbits
 	vec      VecQbits // Struct - having number of bits and their vector
-	regQsim  []*Reg   // Not sure of this
 	Name     string
 }
 
 func MakeCircuit(num uint, name string) Qsim {
 	//var i uint
 	//i = 1 << num
-	reg := make([]*Reg, 0) // TBD - remove
 	// Create a |0> vector for each of the input Qubits
 	// and save in Circuit->vec
 	fmt.Printf("Create a Qbit with ket0 - |0>\n")
@@ -25,7 +23,7 @@ func MakeCircuit(num uint, name string) Qsim {
 	vec.Print()
 
 	fmt.Printf("MakeCircuit with %d Qbits\n", num)
-	return Qsim{numQbits: num, vec: vec, regQsim: reg, Name: name}
+	return Qsim{numQbits: num, vec: vec, Name: name}
 
 }
 
