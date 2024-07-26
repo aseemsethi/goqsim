@@ -34,26 +34,30 @@ func main() {
 	// Create a circuit with n inputs, each input is |0>
 	ckt := MakeCircuit(1, "Circuit1")
 	fmt.Printf("Circuit %+v\n\n", ckt)
+	fmt.Printf("Measuring.....: %d\n", ckt.vec.Measure())
 
-	fmt.Printf("Create Identity Matrix\n")
+	fmt.Printf("\nCreate Identity Matrix\n")
 	iMatrix := IDGate(2, 2)
 	iMatrix.Print()
 	fmt.Printf("Multiply Qbit Vector with Identity Matrix\n")
 	v2 := iMatrix.Dot(ckt.vec)
 	v2.Print()
+	fmt.Printf("Measuring.....: %d\n", v2.Measure())
 
-	fmt.Printf("Create Not Gate\n")
+	fmt.Printf("\nCreate Not Gate\n")
 	iMatrix = NotGate(2, 2)
 	iMatrix.Print()
 	fmt.Printf("Not Gate on Qbit\n")
 	v2 = iMatrix.Dot(ckt.vec)
 	v2.Print()
+	fmt.Printf("Measuring.....: %d\n", v2.Measure())
 
-	fmt.Printf("Create Hadamard Gate\n")
+	fmt.Printf("\nCreate Hadamard Gate\n")
 	iMatrix = HadGate()
 	iMatrix.Print()
 	fmt.Printf("Had Gate on Qbit\n")
 	v2 = iMatrix.Dot(ckt.vec)
 	v2.Print()
+	fmt.Printf("Measuring.....: %d\n", v2.Measure())
 
 }

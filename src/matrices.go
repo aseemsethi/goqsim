@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"math"
 	"math/cmplx"
+	"math/rand"
+	"time"
 )
 
 type Matrix struct {
@@ -161,6 +163,17 @@ func (v *VecQbits) Probability() []float64 {
 	return v.Prob
 }
 
+func (v *VecQbits) Measure() int {
+	rand.Seed(time.Now().UnixNano())
+	if rand.Float64() < v.Prob[0] {
+		// prob0
+		return 0
+	} else {
+		//prob1
+		return 1
+	}
+}
+
 func (v *VecQbits) Print() {
 	var i uint
 	for i = 0; i < v.N; i++ {
@@ -172,5 +185,5 @@ func (v *VecQbits) Print() {
 		fmt.Printf("")
 		fmt.Printf("%.1f\n", e)
 	}
-	fmt.Printf("Probability: %.2f\n\n", v.Probability())
+	fmt.Printf("Probability: %.2f\n", v.Probability())
 }
