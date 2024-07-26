@@ -5,6 +5,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"math/cmplx"
 )
 
 type Matrix struct {
@@ -14,9 +16,9 @@ type Matrix struct {
 }
 
 type VecQbits struct {
-	N           uint
-	Data        []complex128 // value of Qbit
-	Probability []float64    // Probablity of each vector
+	N    uint
+	Data []complex128 // value of Qbit
+	Prob []float64
 }
 
 // Creates n Vectors each with a value of |0> and returns them in an array
@@ -67,6 +69,25 @@ func NotGate(r, c uint) Matrix {
 	m.Set(0, 1, 1)
 	m.Set(1, 0, 1)
 	m.Set(1, 1, 0)
+	return m
+}
+
+func YGate(r, c uint) Matrix {
+	m := NewMatrix(r, c)
+	m.Set(0, 0, complex(0, 0))
+	m.Set(0, 1, complex(0, -1))
+	m.Set(1, 0, complex(0, 1))
+	m.Set(1, 1, complex(0, 0))
+	return m
+}
+
+func HadGate() Matrix {
+	sqrt2 := 1.0 / complex(math.Sqrt(2), 0)
+	m := NewMatrix(2, 2)
+	m.Set(0, 0, sqrt2)
+	m.Set(0, 1, sqrt2)
+	m.Set(1, 0, sqrt2)
+	m.Set(1, 1, -sqrt2)
 	return m
 }
 
@@ -130,16 +151,26 @@ func (v *VecQbits) At(n uint) complex128 {
 	return v.Data[n]
 }
 
+// Probability returns the probability of q
+// that is expressed as a Vector
+func (v *VecQbits) Probability() []float64 {
+	v.Prob = make([]float64, len(v.Data))
+	for i, a := range v.Data {
+		v.Prob[i] = math.Pow(cmplx.Abs(a), 2)
+	}
+	return v.Prob
+}
+
 func (v *VecQbits) Print() {
 	var i uint
 	for i = 0; i < v.N; i++ {
-		//fmt.Printf("%d: ", i)
 		if i != 0 && i%16 == 0 {
 			fmt.Println("")
 			fmt.Printf("%d: ", i)
 		}
 		e := v.Data[i]
+		fmt.Printf("")
 		fmt.Printf("%.1f\n", e)
 	}
-	fmt.Println("")
+	fmt.Printf("Probability: %.2f\n\n", v.Probability())
 }

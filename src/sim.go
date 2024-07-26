@@ -48,4 +48,12 @@ func main() {
 	fmt.Printf("Not Gate on Qbit\n")
 	v2 = iMatrix.Dot(ckt.vec)
 	v2.Print()
+
+	fmt.Printf("Create Hadamard Gate\n")
+	iMatrix = HadGate()
+	iMatrix.Print()
+	fmt.Printf("Had Gate on Qbit\n")
+	v2 = iMatrix.Dot(ckt.vec)
+	v2.Print()
+
 }
