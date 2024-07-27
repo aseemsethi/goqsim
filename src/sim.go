@@ -29,10 +29,7 @@ func MakeCircuit(num uint, name string) Qsim {
 
 }
 
-func main() {
-	fmt.Println("Qsim starting...........................")
-	rand.Seed(time.Now().UnixNano())
-
+func testOneQbit() {
 	// Create a circuit with n inputs, each input is |0>
 	ckt := MakeCircuit(1, "Circuit1")
 	fmt.Printf("Circuit %+v\n\n", ckt)
@@ -61,17 +58,26 @@ func main() {
 	v2 = iMatrix.Dot(ckt.vec)
 	v2.Print()
 	fmt.Printf("Measuring.....: %d\n", v2.Measure())
+}
 
+func testTwoQbit() {
 	fmt.Printf("\nCreate CNot Gate\n")
-	iMatrix = CNotGate()
+	iMatrix := CNotGate()
 	iMatrix.Print()
 	fmt.Printf("CNOT Gate on Qbit |11>\n")
 	vec := NewVector(4) // 4 dimension vector
 	//set vector to qbit |11>, which is [0001]
 	vec.Set2QbitVal(3)
-	v2 = iMatrix.Dot(vec)
+	v2 := iMatrix.Dot(vec)
 	// We should get qbit |10> which is [0010]]
 	vec.Print()
 	v2.Print()
+}
 
+func main() {
+	fmt.Println("Qsim starting...........................")
+	rand.Seed(time.Now().UnixNano())
+
+	testOneQbit()
+	testTwoQbit()
 }
