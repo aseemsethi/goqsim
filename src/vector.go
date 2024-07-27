@@ -19,17 +19,23 @@ type VecQbits struct {
 // Each call to NewVector returns a single 2-dimension Qbit value of ket-0
 func NewVector(dimension uint) VecQbits {
 	var data []complex128
-	//var i uint
+	var i uint
 
-	// for i = 0; i < n; i++ {
-	// 	data = append(data, complex128(0))
-	// }
-	data = append(data, complex128(1))
-	data = append(data, complex128(0))
+	for i = 0; i < dimension; i++ {
+		data = append(data, complex128(0))
+	}
+	data[0] = complex128(1)
+	//data = append(data, complex128(1))
+	//data = append(data, complex128(0))
 	return VecQbits{N: dimension, Data: data}
 }
 
 // ************* Vector Utils
+func (v *VecQbits) Set2QbitVal(val uint) {
+	v.SetAll(0)
+	v.Set(val, 1)
+}
+
 func (v *VecQbits) Set(n uint, val complex128) {
 	v.Data[n] = val
 }

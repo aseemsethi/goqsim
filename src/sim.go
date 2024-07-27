@@ -65,5 +65,13 @@ func main() {
 	fmt.Printf("\nCreate CNot Gate\n")
 	iMatrix = CNotGate()
 	iMatrix.Print()
+	fmt.Printf("CNOT Gate on Qbit |11>\n")
+	vec := NewVector(4) // 4 dimension vector
+	//set vector to qbit |11>, which is [0001]
+	vec.Set2QbitVal(3)
+	v2 = iMatrix.Dot(vec)
+	// We should get qbit |10> which is [0010]]
+	vec.Print()
+	v2.Print()
 
 }
