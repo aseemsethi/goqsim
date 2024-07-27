@@ -69,6 +69,48 @@ func HadGate() Matrix {
 	return m
 }
 
+// This multiplies a 4x4 CNTOT matrix to the 4x1 vector
+//    CNOT     2 Qbit Vectors are represented as
+//  1 0 0 0 	[00]	[1]	[0]	[0] [0]
+//  0 1 0 0		[01]	[0]	[1]	[0]	[0]
+//  0 0 0 1		[10]	[0]	[0]	[1]	[0]
+//  0 0 1 0		[11]	[0]	[0]	[0]	[1]
+
+func CNotGate() Matrix {
+	var x, y uint
+	m := NewMatrix(4, 4)
+	for x = 0; x < 4; x++ {
+		for y = 0; y < 4; y++ {
+			if x == y {
+				m.Set(x, y, 1)
+			} else {
+				m.Set(x, y, 0)
+			}
+		}
+	}
+	// m.Set(0, 0, 1)
+	// m.Set(0, 1, 0)
+	// m.Set(0, 2, 0)
+	// m.Set(0, 3, 0)
+
+	// m.Set(1, 0, 0)
+	// m.Set(1, 1, 1)
+	// m.Set(1, 2, 0)
+	// m.Set(1, 3, 0)
+
+	// m.Set(2, 0, 0)
+	// m.Set(2, 1, 0)
+	// m.Set(2, 2, 1)
+	// m.Set(2, 3, 0)
+
+	// m.Set(3, 0, 0)
+	// m.Set(3, 1, 0)
+	// m.Set(3, 2, 0)
+	// m.Set(3, 3, 1)
+
+	return m
+}
+
 func (m *Matrix) Set(r, c uint, val complex128) {
 	m.Data[r][c] = val
 }

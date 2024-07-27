@@ -5,6 +5,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type Qsim struct {
@@ -29,6 +31,8 @@ func MakeCircuit(num uint, name string) Qsim {
 
 func main() {
 	fmt.Println("Qsim starting...........................")
+	rand.Seed(time.Now().UnixNano())
+
 	// Create a circuit with n inputs, each input is |0>
 	ckt := MakeCircuit(1, "Circuit1")
 	fmt.Printf("Circuit %+v\n\n", ckt)
@@ -57,5 +61,9 @@ func main() {
 	v2 = iMatrix.Dot(ckt.vec)
 	v2.Print()
 	fmt.Printf("Measuring.....: %d\n", v2.Measure())
+
+	fmt.Printf("\nCreate CNot Gate\n")
+	iMatrix = CNotGate()
+	iMatrix.Print()
 
 }

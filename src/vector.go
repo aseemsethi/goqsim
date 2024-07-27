@@ -5,7 +5,7 @@ import (
 	"math"
 	"math/cmplx"
 	"math/rand"
-	"time"
+	//"time"
 )
 
 type VecQbits struct {
@@ -54,7 +54,6 @@ func (v *VecQbits) Probability() []float64 {
 }
 
 func (v *VecQbits) Measure() int {
-	rand.Seed(time.Now().UnixNano())
 	if rand.Float64() < v.Prob[0] {
 		// prob0
 		return 0
