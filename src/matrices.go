@@ -70,7 +70,7 @@ func HadGate() Matrix {
 }
 
 // CNOT Gate
-// CNOT x 2Qbit - multiplies 4x4 CNTOT matrix to 4x1 vector
+// CNOT x 2Qbit - multiplies 4x4 CNOT matrix to 4x1 vector
 //    CNOT     2 Qbit  Vector representation
 //  1 0 0 0 	[00]	[1 0 0 0]
 //  0 1 0 0		[01]	[0 1 0 0]
@@ -95,6 +95,40 @@ func CNotGate() Matrix {
 	m.Set(2, 3, 1)
 	m.Set(3, 2, 1)
 	m.Set(3, 3, 0)
+
+	return m
+}
+
+// CCNOT Gate
+// CCNOT x 3Qbit - multiplies 8x8 CCNOT matrix to 8x1 vector
+//    CNOT  		2 Qbit  Vector representation
+//  1 0 0 0 0 0 0 0 	[000]	[1 0 0 0 0 0 0 0 ]
+//  0 1 0 0 0 0 0 0		[001]	[0 1 0 0 0 0 0 0 ]
+//  0 0 1 0 0 0 0 0		[010]	[0 0 1 0 0 0 0 0 ]
+//  0 0 0 1 0 0 0 0		[011]	[0 0 0 1 0 0 0 0 ]
+//  0 0 0 0 1 0 0 0		[100]	[0 0 0 0 1 0 0 0 ]
+//  0 0 0 0 0 1 0 0		[105]	[0 0 0 0 0 1 0 0 ]
+//  0 0 0 0 0 0 0 1		[110]	[0 0 0 0 0 0 1 0 ]
+//  0 0 0 0 0 0 1 0		[111]	[0 0 0 0 0 0 0 1 ]
+
+func CCNotGate() Matrix {
+	var x, y uint
+	m := NewMatrix(8, 8)
+	// The following sets the diagnal to all 1s
+	for x = 0; x < 8; x++ {
+		for y = 0; y < 8; y++ {
+			if x == y {
+				m.Set(x, y, 1)
+			} else {
+				m.Set(x, y, 0)
+			}
+		}
+	}
+	// Now change the 2 values as per the CNOT matrix
+	m.Set(6, 6, 0)
+	m.Set(2, 7, 1)
+	m.Set(7, 6, 1)
+	m.Set(7, 7, 0)
 
 	return m
 }
